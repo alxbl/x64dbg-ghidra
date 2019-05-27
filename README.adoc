@@ -38,6 +38,4 @@ decompressed database. Select it and look at the console for the details.
 == Future Work
 
 - [ ] Support exporting to x64dbg format
-- [ ] Import function ranges
-- [ ] Import labels
 - [ ] Import structs
