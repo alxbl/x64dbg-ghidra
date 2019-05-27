@@ -1,0 +1,43 @@
+= x64dbg to Ghidra Database Importer
+
+A simple Ghidra script to import an x64dbg database.
+
+I wrote this to try and bridge the lack of dynamic analysis capability in
+Ghidra while the debugger is being worked on. It should be fairly
+straightforward to use and require no additional external dependencies.
+
+It currently supports importing the following:
+
+    - Comments
+    - Bookmarks
+
+== Installing
+
+Just drop the file x64dbg-ghidra.py into your script directory or copy paste
+its contents into a new script in the Script Manager.
+
+
+== Running
+
+Currently, there is one limitation: Ghidra does not natively support `lz4`
+compression, which is the x64dbg database compression algorithm. Until there
+is a better way, you can manually decompress your database by running
+
+----
+lz4 -d path/to/db.dd32 path/to/output.json
+----
+
+Then, running the script in Ghidra will prompt you for the location of the
+decompressed database. Select it and look at the console for the details.
+
+== Limitations
+
+- Currently, the script has some rudimentary duplicate detection and will re-import modified comments
+- The image name in Ghidra should match the module name in x64dbg (This can be changed easily)
+
+== Future Work
+
+- [ ] Support exporting to x64dbg format
+- [ ] Import function ranges
+- [ ] Import labels
+- [ ] Import structs
