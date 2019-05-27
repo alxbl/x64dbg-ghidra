@@ -9,6 +9,33 @@
 #     lz4 -d path/to/db.dd32 out.json
 #
 import json
+IMPORTED = ghidra.program.model.symbol.SourceType.IMPORTED
+FUNCTION = ghidra.program.model.symbol.SymbolType.FUNCTION
+
+def import_symbols(labels, functions, base):
+    print('[*] Parsing %d symbols' % (len(labels)))
+    new_labels = 0
+    new_functions = 0
+    f = dict(map(lambda f: (int(f['start'], 16), int(f['end'], 16)), functions))
+    l = dict(map(lambda l: (int(l['address'], 16), l['text']), labels))
+
+    for rva, text in l.items():
+        address = base.add(rva)
+        s = getSymbolAt(address)
+
+        # If the symbol already has a name that isn't a built-in Ghidra name, ignore it.
+        if s is not None and all(map(lambda x: not s.name.startswith(x), ['LAB_', 'DAT_', 'FUN_', 'PTR_'])): continue
+
+        if rva in f: # It's a function symbol.
+            if s and s.getSymbolType() == FUNCTION: s.setName(text, IMPORTED)
+            else: createFunction(address, text)
+            new_functions += 1
+        else: # It's a regular label.
+            if s is not None: s.setName(text, IMPORTED)
+            else: createLabel(address, text, True, IMPORTED)
+            new_labels += 1
+
+    print('[+] Imported %d new symbols (%d functions, %d labels)' % (new_functions + new_labels, new_functions, new_labels))
 
 def main():
     try:
@@ -59,5 +86,8 @@ def main():
         createBookmark(address, 'x64dbg', 'Imported: ' + PATH)
         imported += 1
     print('[+] Imported %d new bookmarks' % (imported))
+
+    # Symbols ------------------------------------------------------------------
+    import_symbols(labels, functions, BASE)
 
 main()
