@@ -10,12 +10,13 @@ It currently supports importing the following:
 
     - Comments
     - Bookmarks
+    - Labels
+    - Functions
 
 == Installing
 
 Just drop the file x64dbg-ghidra.py into your script directory or copy paste
 its contents into a new script in the Script Manager.
-
 
 == Running
 
