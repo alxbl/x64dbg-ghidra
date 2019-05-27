@@ -1,11 +1,12 @@
 # Import an x64dbg database file to Ghidra's Program DB
 #
-# There is no way to extract an lz4 database from Ghidra currently so it is
-# necessary to manually extract the .dd32 or .dd64 database manually first.
+# There is no way to extract an lz4 database with the Ghidra API currently so
+# it is necessary to manually extract the .dd32 or .dd64 database manually
+# first.
 #
 # This can be done (on Linux) with the following command:
 #
-#     lz4  -d path/to/db.dd32 out.json
+#     lz4 -d path/to/db.dd32 out.json
 #
 import json
 
