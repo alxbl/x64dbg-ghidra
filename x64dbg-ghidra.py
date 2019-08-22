@@ -8,9 +8,13 @@
 #
 #     lz4 -d path/to/db.dd32 out.json
 #
+# @category x64dbg
+#
 import json
 IMPORTED = ghidra.program.model.symbol.SourceType.IMPORTED
 FUNCTION = ghidra.program.model.symbol.SymbolType.FUNCTION
+
+def get(db, section): return db[section] if section in db else []
 
 def import_symbols(labels, functions, base):
     print('[*] Parsing %d symbols' % (len(labels)))
@@ -37,6 +41,8 @@ def import_symbols(labels, functions, base):
 
     print('[+] Imported %d new symbols (%d functions, %d labels)' % (new_functions + new_labels, new_functions, new_labels))
 
+
+
 def main():
     try:
         PATH = str(askFile("Select Database file", "Import"))
@@ -48,10 +54,10 @@ def main():
     BASE = currentProgram.getAddressMap().getImageBase()
 
     with open(PATH, 'rb') as f: db = json.load(f)
-    comments  = db['comments']
-    labels    = db['labels']
-    bookmarks = db['bookmarks']
-    functions = db['functions']
+    comments  = get(db, 'comments')
+    labels    = get(db, 'labels')
+    bookmarks = get(db, 'bookmarks')
+    functions = get(db, 'functions')
 
 
     # Comments -----------------------------------------------------------------
