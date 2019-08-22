@@ -31,6 +31,10 @@ lz4 -d path/to/db.dd32 path/to/output.json
 Then, running the script in Ghidra will prompt you for the location of the
 decompressed database. Select it and look at the console for the details.
 
+> It's also possible to use x64dbg's `Export Database` feature which will
+> export the database in decompressed form. You can then directly import the
+> exported `.dd(32|64)` in Ghidra.
+
 == Limitations
 
 - Currently, the script has some rudimentary duplicate detection and will re-import modified comments

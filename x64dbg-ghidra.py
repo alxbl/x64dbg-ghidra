@@ -8,6 +8,9 @@
 #
 #     lz4 -d path/to/db.dd32 out.json
 #
+# Alternatively, you can use x64dbg's Export Database function in the "File"
+# menu and import the resulting .dd32 or .dd64 file.
+#
 # @category x64dbg
 #
 import json
